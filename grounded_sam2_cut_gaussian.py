@@ -72,7 +72,8 @@ class GroundedSam2CutGaussian:
     RETURN_TYPES = ("IMAGE",)
     RETURN_TYPES_NAMES = ("image",)
     FUNCTION = "test"
-    CATEGORY = "RomanticQq"
+    CATEGORY = "Grounding-Sam"
+    DESCRIPTION = "使用grounded-sam2进行检测和分割，并对分割后的背景区域进行高斯模糊处理"
     def test(self, text_prompt="subject", box_threshold=0.35, text_threshold=0.25, image=None, imageUrl=None):
         try:
             self.text_prompt = text_prompt
