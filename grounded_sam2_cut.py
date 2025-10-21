@@ -62,6 +62,7 @@ class GroundedSam2Cut:
                 "text_prompt": ("STRING", {"default": "subject"}),
                 "box_threshold": ("FLOAT", {"default": 0.35, "min": 0.0, "max": 1.0, "step": 0.01}),
                 "text_threshold": ("FLOAT", {"default": 0.25, "min": 0.0, "max": 1.0, "step": 0.01}),
+                "random_seed": ("INT", {"default": 66666, "min": 0, "max": 2**32 - 1, "step": 1, "control_after_generate": True}),
             },
             "optional": {
                 "image": ("IMAGE", {"default": None}),
@@ -74,7 +75,8 @@ class GroundedSam2Cut:
     FUNCTION = "test"
     CATEGORY = "Grounding-Sam"
     DESCRIPTION = "使用grounded-sam2进行检测和分割（仅输出分割叠加图）"
-    def test(self, text_prompt="subject", box_threshold=0.35, text_threshold=0.25, image=None, imageUrl=None):
+    def test(self, text_prompt="subject", box_threshold=0.35, text_threshold=0.25, random_seed=0, image=None, imageUrl=None):
+        np.random.seed(random_seed)
         try:
             self.text_prompt = text_prompt
             self.box_threshold = box_threshold

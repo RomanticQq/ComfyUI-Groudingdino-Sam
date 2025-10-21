@@ -24,6 +24,7 @@ class GroundingDino:
                 "text_prompt": ("STRING", {"default": "subject"}),
                 "box_threshold": ("FLOAT", {"default": 0.35, "min": 0.0, "max": 1.0, "step": 0.01}),
                 "text_threshold": ("FLOAT", {"default": 0.25, "min": 0.0, "max": 1.0, "step": 0.01}),
+                "random_seed": ("INT", {"default": 66666, "min": 0, "max": 2**32 - 1, "step": 1, "control_after_generate": True}),
             },
             "optional": {
                 "image": ("IMAGE", {"default": None}),
@@ -36,7 +37,8 @@ class GroundingDino:
     FUNCTION = "test"
     CATEGORY = "Grounding-Sam"
     DESCRIPTION = "使用groundingdino进行目标检测，并裁剪出目标区域"
-    def test(self, text_prompt="subject", box_threshold=0.35, text_threshold=0.25, image=None, imageUrl=None):
+    def test(self, text_prompt="subject", box_threshold=0.35, text_threshold=0.25, random_seed=0, image=None, imageUrl=None):
+        np.random.seed(random_seed)
         try:
             tmp_img_name = str(uuid.uuid4()) + ".jpg"
             tmp_img_path = os.path.join(self.tmp_dir, tmp_img_name)
