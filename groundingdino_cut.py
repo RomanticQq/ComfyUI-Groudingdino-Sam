@@ -32,8 +32,8 @@ class GroundingDino:
             }
         }
 
-    RETURN_TYPES = ("IMAGE",)
-    RETURN_TYPES_NAMES = ("image",)
+    RETURN_TYPES = ("IMAGE","INT","INT","INT","INT","INT")
+    RETURN_NAMES = ("image","x1","y1","x2","y2","area")
     FUNCTION = "test"
     CATEGORY = "Grounding-Sam"
     DESCRIPTION = "使用groundingdino进行目标检测，并裁剪出目标区域"
@@ -77,6 +77,7 @@ class GroundingDino:
                 x1, y1, x2, y2 = [int(num) for num in input_boxes[0]]
                 origin_image = cv2.imread(tmp_img_path)
                 cut_image = origin_image[y1:y2, x1:x2]
+                area = (x2 - x1) * (y2 - y1)
                 cv2.imwrite(tmp_img_path, cut_image)
                 print(f"Saved cut image to {tmp_img_path}")
         except Exception as e:
@@ -86,4 +87,4 @@ class GroundingDino:
         img = torch.from_numpy(np.expand_dims(img, axis=0) / 255.0)
         os.remove(tmp_img_path)
         # return (image,)
-        return (img,)
+        return (img,x1,y1,x2,y2,area)
