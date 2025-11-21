@@ -67,6 +67,11 @@ class GroundingDino:
                 text_threshold=text_threshold
             )
             if len(boxes) == 0:
+                h, w, _ = image_source.shape
+                x1 = 0
+                x2 = w
+                y1 = 0
+                y2 = h
                 print(f"No objects found in image {tmp_img_path}")
             else:
                 max_confidence_index = torch.argmax(logits)
