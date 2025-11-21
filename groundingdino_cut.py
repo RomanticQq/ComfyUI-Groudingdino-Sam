@@ -72,6 +72,7 @@ class GroundingDino:
                 x2 = w
                 y1 = 0
                 y2 = h
+                area = w*h
                 print(f"No objects found in image {tmp_img_path}")
             else:
                 max_confidence_index = torch.argmax(logits)
